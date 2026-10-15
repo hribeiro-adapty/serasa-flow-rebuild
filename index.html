@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Serasa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- Serasa, sampled from the supplied Premium paywall ---- */
+  --sr-pink:#D82B80; --sr-pink-dk:#B01E68; --sr-pink-bg:#FCE7F1;
+  --sr-navy:#112040; --sr-txt:#636F88; --sr-bg:#EFEFF4; --sr-card:#FFFFFF; --sr-line:#D6DDEA;
+  --r-ctl:14px; --r-card:16px;
+  /* ---- the report shell, in Serasa's own palette ---- */
+  --bg:#EFEFF4; --bg2:#FFFFFF; --surf:#FFFFFF;
+  --hair:rgba(17,32,64,.09); --hair2:rgba(17,32,64,.16);
+  --ink:#112040; --ink2:#42506B; --ink3:#7A8499;
+  --accent:#D82B80; --accent-lift:#B01E68;
+  --panel:#FFFFFF; --panel-ink:#112040; --panel-muted:#5F6B82; --panel-line:#E6E9F0;
+  --accent-ink:#A81B62;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(239,239,244,.88);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand img{width:26px;height:26px;border-radius:7px;display:block}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:600}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#fff;box-shadow:0 1px 4px rgba(17,32,64,.08)}
+@media(max-width:640px){.nav-brand span{display:none}}
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(216,43,128,.16),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(150,170,222,.26),transparent 70%),radial-gradient(38% 45% at 92% 18%,rgba(236,170,200,.26),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+.stats{display:flex;justify-content:center;margin:70px auto 0;max-width:760px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(216,43,128,.14);display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair)}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);box-shadow:0 2px 10px rgba(17,32,64,.04);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+.ideas{display:flex;flex-direction:column;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.7)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;box-shadow:0 2px 10px rgba(17,32,64,.04);padding:40px 44px;margin-top:44px;display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.cta-row{display:flex;justify-content:center;margin-top:52px;align-items:center;gap:22px;flex-wrap:wrap}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.1)}
+.bigbtn svg{width:15px;height:15px}
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--hair2);color:var(--ink);font-size:14px;font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;box-shadow:0 2px 12px rgba(17,32,64,.06);transition:.16s}
+.ghostbtn:hover{box-shadow:0 4px 18px rgba(17,32,64,.1)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;border-radius:46px;box-shadow:0 0 0 1.5px #D3D8E2,0 34px 70px -22px rgba(17,32,64,.35)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--sr-bg);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Inter',sans-serif;color:#111;transition:color .3s}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:56;pointer-events:none;transition:background .3s}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--sr-bg)}
+
+/* ============ phone screens — Serasa's system, all prefixed scr-/sr- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--sr-bg);color:var(--sr-navy);font-family:'Inter',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 22px 14px;background:var(--sr-card);position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 16px;scrollbar-width:none;position:relative;z-index:1}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:12px 16px 28px;background:var(--sr-card);border-radius:20px 20px 0 0;box-shadow:0 -6px 18px -10px rgba(17,32,64,.25);position:relative;z-index:3}
+.sr-back{width:32px;height:32px;margin-left:-6px;display:grid;place-items:center;color:var(--sr-txt)}
+.sr-back svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sr-h{font-size:25px;line-height:1.15;font-weight:600;letter-spacing:-.022em;margin:14px 0 0;color:var(--sr-navy)}
+.sr-sub{font-size:14.5px;line-height:1.4;color:var(--sr-txt);margin:14px 2px 14px}
+.sr-btn{display:block;width:100%;height:48px;border-radius:var(--r-ctl);background:var(--sr-pink);color:#fff;font:600 15px/1 'Inter',sans-serif;letter-spacing:.01em;text-transform:uppercase;transition:filter .15s}
+.sr-btn:hover{filter:brightness(1.06)}
+.sr-link{display:block;width:100%;height:38px;margin-top:6px;font:600 13.5px/1 'Inter',sans-serif;color:var(--sr-pink)}
+.sr-terms{font-size:13px;line-height:1.35;color:var(--sr-txt);margin:2px 0 11px;font-weight:500}
+.sr-terms a{color:var(--sr-pink);font-weight:600;text-decoration:underline}
+.sr-plans{display:flex;flex-direction:column;gap:14px}
+.sr-plan{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--sr-card);border:2px solid var(--sr-line);border-radius:var(--r-card);padding:16px 16px 16px 16px;transition:.16s}
+.sr-plan.on{border-color:var(--sr-pink)}
+.sr-radio{width:25px;height:25px;flex:none;border-radius:50%;border:2px solid var(--sr-line);display:grid;place-items:center;transition:.16s}
+.sr-plan.on .sr-radio{border-color:var(--sr-pink)}
+.sr-radio i{width:13px;height:13px;border-radius:50%;background:var(--sr-pink);opacity:0}
+.sr-plan.on .sr-radio i{opacity:1}
+.sr-plan .p{display:block;font-size:20px;font-weight:700;letter-spacing:-.01em;color:var(--sr-navy);line-height:1.2}
+.sr-plan .p small{font-size:15px;font-weight:400;letter-spacing:0}
+.sr-plan .s{display:block;font-size:13.5px;color:var(--sr-txt);margin-top:2px;line-height:1.35}
+.sr-save{display:inline-block;margin-top:7px;background:var(--sr-pink-bg);color:var(--sr-pink-dk);font-size:12px;font-weight:600;line-height:1.3;border-radius:8px;padding:4px 8px}
+.sr-feat{margin-top:22px;background:var(--sr-card);border-radius:var(--r-card);padding:16px 16px 4px;box-shadow:0 2px 12px rgba(17,32,64,.06)}
+.sr-f{display:flex;gap:10px;margin-bottom:15px}
+.sr-f svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--sr-pink);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sr-f b{display:block;font-size:15px;font-weight:600;color:var(--sr-navy);line-height:1.3}
+.sr-f span{display:block;font-size:14px;color:var(--sr-txt);line-height:1.35;margin-top:1px}
+.sr-proof{display:flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 8px;font-size:13px;font-weight:600;color:var(--sr-navy)}
+.sr-proof svg{width:15px;height:15px;fill:#F5A623;flex:none}
+.sr-proof span{font-weight:500;color:var(--sr-txt)}
+.sr-x{position:absolute;right:16px;top:54px;width:36px;height:36px;display:grid;place-items:center;color:var(--sr-txt);z-index:5}
+.sr-x svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round}
+.scr--offer .sr-plan{cursor:default}
+.sr-cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.sr-cmp div{background:var(--sr-card);border:1px solid var(--sr-line);border-radius:12px;padding:11px 12px;font-size:12.5px;line-height:1.35;color:var(--sr-txt)}
+.sr-cmp div b{display:block;font-size:15px;color:var(--sr-navy);font-weight:700;margin:2px 0}
+.sr-cmp div.me{border-color:var(--sr-pink)}
+.sr-cmp small{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sr-txt)}
+
+/* dark mode — an approximation: no dark frame was supplied */
+.phone-in.dark{--sr-bg:#0B1020;--sr-card:#151C32;--sr-line:#2F3957;--sr-navy:#F2F4FA;--sr-txt:#9FAAC4;--sr-pink-bg:#3A1A2D;--sr-pink-dk:#FF8FC1;background:var(--sr-bg)}
+.phone-in.dark .screenwrap{background:var(--sr-bg)}
+.phone-in.dark .sr-feat{box-shadow:none}
+.phone-in.dark .sr-foot{box-shadow:0 -6px 18px -10px rgba(0,0,0,.6)}
+.phone-in.dark .sr-terms a{color:#FF6FAE}
+.phone-in.dark .sr-link{color:#FF6FAE}
+
+/* prototype toolbar, walkthrough */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#fff;border:1px solid #DDE1EA;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:var(--ink);color:#fff}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:#fff;font:700 12px/1 'Plus Jakarta Sans',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(17,32,64,.07)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F4}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);margin:0;font-weight:500}
+.demo-cap button{font:700 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #DDE1EA;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(17,32,64,.26);border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(17,32,64,.4)}
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3} #view-proto .chiphint{order:4}
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .sr-x{top:14px}
+  #view-proto .scr-foot{padding-bottom:16px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #DDE1EA;background:#fff;font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#C2C8D4}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E3850;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E3850;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <img src="img/icon.jpg" alt="Serasa">
+      <b>Growth Audit</b><span>· Serasa</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Visão geral</button>
+      <button data-view="proto">Protótipo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <!-- month + year = the day this was built -->
+    <div class="eyebrow">Growth Audit · Outubro 2026</div>
+    <h1>Serasa</h1>
+    <p class="lede">Cinco ideias para gerar mais receita com quem já chega ao paywall do Premium.</p>
+    <div class="meta">Preparado pela <b>Adapty</b> · com base no paywall Premium do seu app iOS e na sua página da App Store</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Veja o tour de 30 segundos</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps rodam assinaturas<br>na Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideias, cada uma refeita<br>como tela funcional</span></div>
+      <div class="stat"><b>0</b><span>mudanças na direção<br>de arte do seu app</span></div>
+    </div>
+    <div class="fb">
+      <div class="fb-k">Feito no Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Milhões de dólares</b> em receita de assinaturas passam pelo Flow Builder todo mês.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Quase 500 apps</b> criam seus paywalls e onboardings nele, e muitos já passam de US$ 100 mil de MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">O que é isto</div>
+    <h2>Olhamos a tela em que alguém decide assinar o Premium e refizemos as partes que, na nossa leitura, deixam dinheiro na mesa.</h2>
+    <p class="body">A Adapty cuida das assinaturas de <b>mais de 30.000 apps</b>, então vemos o que move conversão e receita por usuário no mercado todo, e não só dentro de um app. Aplicamos esse olhar à Serasa: o paywall do Premium, a página do app na App Store e a página do Premium em serasa.com.br, atrás de lacunas entre o que vocês já têm e o que mostram às pessoas naquele momento.</p>
+    <p class="body">Esta auditoria trata <b>só do paywall</b>: a tela de planos e o que acontece quando a pessoa volta. São cinco ideias, não quinze. Cada uma é uma hipótese que vocês podem testar em A/B e está montada num protótipo clicável, para ver em vez de imaginar. <b>O protótipo usa o design de vocês, não o nosso.</b></p>
+    <div class="notes">
+      <div class="note">
+        <h4>Não redesenhamos o app de vocês</h4>
+        <p>Toda tela do protótipo é de vocês: cabeçalho branco, título azul-marinho, cards de plano com contorno rosa, lista de benefícios e botão rosa. Mudam apenas o que a tela diz e quando, usando coisas que vocês já publicam. Não é uma proposta de redesign.</p>
+      </div>
+      <div class="note">
+        <h4>Vocês podem já ter testado algumas</h4>
+        <p>Trabalhamos de fora e não vemos o histórico de experimentos de vocês. Se já rodaram alguma destas, avisem e aprofundamos as demais em vez de repetir.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">As cinco ideias</div>
+    <h2>Em ordem do que testaríamos primeiro.</h2>
+    <p class="body">Cada uma leva direto à tela no protótipo.</p>
+    <div class="ideas">
+
+      <button class="idea" data-jump="offer">
+        <span class="no">01</span>
+        <span>
+          <h3>Dê uma segunda chance à seta de voltar</h3>
+          <p>O paywall do Premium abre com R$ 199,90 por ano. Quem não está pronto para isso sai com só esse preço na cabeça. Uma tela com um único preço, o plano mensal de R$ 23,90, sem desconto e sem cronômetro, pede menos antes de a pessoa ir embora.</p>
+          <span class="seeit">Ver a tela <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>segunda chance</span></span>
+      </button>
+
+      <button class="idea" data-jump="pay">
+        <span class="no">02</span>
+        <span>
+          <h3>Diga o que a pessoa recupera</h3>
+          <p>“Volte a controlar seus dados” serviria para qualquer um dos seis benefícios abaixo. A página do Premium de vocês abre com alertas sobre CPF e CNPJ. Diga isso no título e as seis linhas abaixo passam a funcionar como prova.</p>
+          <span class="seeit">Ver a tela <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>na compra</span></span>
+      </button>
+
+      <button class="idea" data-jump="payB">
+        <span class="no">03</span>
+        <span>
+          <h3>Coloque a nota 4,8 acima do botão</h3>
+          <p>A página de vocês na App Store mostra 4,8 com 807 mil avaliações. Nada no paywall diz isso, justo quando a pessoa decide se paga por proteção. Uma linha acima do botão rosa resolve.</p>
+          <span class="seeit">Ver a tela <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>na compra</span></span>
+      </button>
+
+      <button class="idea" data-jump="pay">
+        <span class="no">04</span>
+        <span>
+          <h3>Mostre quanto o plano anual economiza</h3>
+          <p>O card anual diz R$ 16,66 por mês. Não diz que doze meses do plano de R$ 23,90 somam R$ 286,80, ou seja, R$ 86,90 a mais. A economia é uma conta feita com dois preços que vocês já publicam.</p>
+          <span class="seeit">Ver a tela <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>mix anual</span></span>
+      </button>
+
+      <button class="idea" data-jump="payB">
+        <span class="no">05</span>
+        <span>
+          <h3>Inclua os benefícios que o paywall deixa de fora</h3>
+          <p>A página do Premium em serasa.com.br lista duas consultas grátis a terceiros por mês e vantagens de parceiros: cupons, cursos da Me Poupe! e Organizze. O paywall não cita nenhuma. São duas linhas a mais abaixo das seis que já existem.</p>
+          <span class="seeit">Ver a tela <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +5–10%</b><span>na compra</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Resultado potencial</div>
+        <p>As cinco caem numa só tela e no momento em que a pessoa sai dela: o que o título promete, o que se comprova ao lado do botão, quanto o ano custa frente ao mês e o que acontece quando ela volta.</p>
+      </div>
+      <div class="nums">
+        <div><b>+25%</b><span>CR na compra</span></div>
+        <div><b>+20%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <button class="bigbtn" data-view="proto">Abrir o protótipo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    As faixas de impacto são o efeito esperado pela Adapty a partir de análises e testes A/B em apps de assinatura, e não um ganho medido para a Serasa. Todo preço, nota e linha de benefício aqui e no protótipo vem do paywall Premium, da página da App Store e de serasa.com.br/premium. A economia de R$ 86,90 é a diferença entre R$ 286,80 (doze meses a R$ 23,90) e R$ 199,90.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segTheme"><button data-theme="light" class="on">Claro</button><button data-theme="dark">Escuro</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>Tour de 30 s</button>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Parar</button></div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- PAYWALL -->
+<section class="scr" data-id="paywall">
+  <div class="scr-top">
+    <button class="sr-back" id="payBack" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
+    <h1 class="sr-h" id="payH">Volte a saber tudo que acontece com seu CPF e CNPJ</h1>
+  </div>
+  <div class="scr-body" id="payBody">
+    <p class="sr-sub">Conte com a assinatura Premium da Serasa para mais tranquilidade, controle e proteção.</p>
+    <div class="sr-plans" id="planList">
+      <button class="sr-plan on" data-v="year">
+        <span class="sr-radio"><i></i></span>
+        <span>
+          <span class="p">R$ 199,90<small>/ano</small></span>
+          <span class="s">no plano anual (equivale a R$ 16,66/mês)</span>
+          <span class="sr-save">R$ 86,90 a menos que 12 meses no plano mensal</span>
+        </span>
+      </button>
+      <button class="sr-plan" data-v="month">
+        <span class="sr-radio"><i></i></span>
+        <span>
+          <span class="p">R$ 23,90<small>/mês</small></span>
+          <span class="s">no plano mensal</span>
+        </span>
+      </button>
+    </div>
+    <div class="sr-feat" id="feat"></div>
+    <div style="height:14px"></div>
+  </div>
+  <div class="scr-foot">
+    <div class="sr-proof"><svg viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,8 <span>· 807 mil avaliações na App Store</span></div>
+    <p class="sr-terms">Ao continuar, você aceita os <a href="#" onclick="return false">termos de uso.</a></p>
+    <button class="sr-btn" id="payCta">Voltar a ser Premium</button>
+  </div>
+</section>
+
+<!-- OFFER ON CLOSE -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <div class="scr-top">
+    <button class="sr-x" id="offClose" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <h1 class="sr-h" style="margin-top:34px">Prefere começar mais leve?</h1>
+  </div>
+  <div class="scr-body">
+    <p class="sr-sub">Assine o Premium mês a mês, sem pagar o ano de uma vez.</p>
+    <div class="sr-plans">
+      <div class="sr-plan on">
+        <span class="sr-radio"><i></i></span>
+        <span>
+          <span class="p">R$ 23,90<small>/mês</small></span>
+          <span class="s">no plano mensal</span>
+        </span>
+      </div>
+    </div>
+    <p class="sr-sub" style="margin:12px 2px 0;font-size:13px">O plano anual é R$ 199,90 pagos de uma vez.</p>
+    <div class="sr-feat" id="offFeat"></div>
+    <div style="height:14px"></div>
+  </div>
+  <div class="scr-foot">
+    <p class="sr-terms">Ao continuar, você aceita os <a href="#" onclick="return false">termos de uso.</a></p>
+    <button class="sr-btn" id="offerCta">Assinar por R$ 23,90/mês</button>
+    <button class="sr-link" id="offAnnual">Ver plano anual de R$ 199,90/ano</button>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">A oferta abre ao tocar na seta de voltar do paywall. Ou vá direto a qualquer etapa aqui.</p>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= content, all in the app's own words ================= */
+var CK='<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+var BEN=[
+ ['Saiba se seus dados estão seguros','Receba alertas e orientações caso seus dados sejam localizados na Dark Web.'],
+ ['Monitore seus dados em tempo real','Receba alertas em tempo real sobre seu CPF e CNPJ: Consultas, dívidas e mais.'],
+ ['Evite consultas ao seu Serasa Score','Bloqueie seu Score para se prevenir de fraudes e desbloqueie para buscar crédito.'],
+ ['Tenha o Score na palma da mão','Receba alertas quando seu Score variar e saiba o momento ideal para pedir crédito.'],
+ ['Ganhe tempo e evite a negativação','Saiba em tempo real se tiver uma dívida prestes a negativar em seu CPF ou CNPJ.'],
+ ['Conte com atendimento exclusivo','Tire as suas dúvidas com o Consultor VIP, um especialista dedicado a te ajudar.']
+];
+var BEN_ADD=[
+ ['Duas consultas a terceiros grátis','Consulte até dois CPFs ou CNPJs por mês antes de contratar um serviço.'],
+ ['Benefícios de parceiros','Cupons de desconto, cursos da Me Poupe! e o app Organizze sem custo adicional.']
+];
+function featHTML(list){ return list.map(function(b){ return '<div class="sr-f">'+CK+'<div><b>'+b[0]+'</b><span>'+b[1]+'</span></div></div>'; }).join(''); }
+document.getElementById('feat').innerHTML=featHTML(BEN.concat(BEN_ADD));
+document.getElementById('offFeat').innerHTML=featHTML(BEN.slice(0,3));
+
+/* ================= state + router ================= */
+var S={plan:'year',theme:'light'};
+var scr={}, cur='paywall', hist=[];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+var body=document.getElementById('payBody');
+function payState(){ return body.scrollTop>110 ? 'payB' : 'pay'; }
+function key(){ return cur==='offer' ? 'offer' : payState(); }
+
+function chrome(){ var dark=S.theme==='dark'; document.getElementById('sbar').classList.toggle('light',dark); document.getElementById('homebar').classList.toggle('light',dark); }
+function sync(){ document.querySelectorAll('#planList .sr-plan').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.plan); }); }
+function go(id){
+  if(id===cur) return;
+  if(id==='offer'){ scr.offer.classList.add('is-active'); }
+  else { scr.offer.classList.remove('is-active'); }
+  cur=id; enter();
+}
+function enter(){ chrome(); paintChips(); paintPanel(); }
+function jump(id){
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); });
+  scr.paywall.classList.add('is-active');
+  if(id==='offer'){ scr.offer.classList.add('is-active'); cur='offer'; }
+  else { scr.offer.classList.remove('is-active'); cur='paywall';
+    body.scrollTop = id==='payB' ? body.scrollHeight : 0; }
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  sync(); enter();
+}
+var CHIPS=[['pay','Paywall'],['payB','Paywall · benefícios'],['offer','Oferta ao voltar']];
+function paintChips(){
+  var c=document.getElementById('chips'), k=key();
+  if(!c.children.length){ CHIPS.forEach(function(x){ var b=document.createElement('button'); b.className='chip'+(x[0]==='offer'?' offer':''); b.textContent=x[1]; b.dataset.id=x[0];
+    b.onclick=function(){ stopDemo(); jump(x[0]); }; c.appendChild(b); }); }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on',b.dataset.id===k); });
+}
+body.addEventListener('scroll',function(){ paintChips(); paintPanel(); });
+document.querySelectorAll('#planList .sr-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; sync(); }); });
+document.getElementById('payBack').addEventListener('click',function(){ go('offer'); });
+document.getElementById('offClose').addEventListener('click',function(){ go('paywall'); });
+document.getElementById('offAnnual').addEventListener('click',function(){ S.plan='year'; sync(); go('paywall'); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on',b.dataset[attr]===val); }); }
+function setTheme(th){ S.theme=th; document.getElementById('phoneIn').classList.toggle('dark',th==='dark'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  S.plan='year'; jump('pay');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/152)+'%'; },200);
+  (async function(){
+    try{
+      cap('O paywall Premium. O título diz o que a pessoa recupera e o plano anual mostra quanto economiza.'); await pause(3000,tok);
+      await tap('#planList [data-v=month]',tok); await pause(600,tok); await tap('#planList [data-v=year]',tok); await pause(400,tok);
+      cap('Rolando: dois benefícios que o site já lista e a nota 4,8 acima do botão.');
+      body.scrollTo({top:body.scrollHeight,behavior:'smooth'}); await pause(1300,tok); paintChips(); paintPanel(); await pause(2400,tok);
+      cap('Ela toca em voltar. Um único preço, mensal, sem desconto inventado.'); await tap('#payBack',tok); await pause(3200,tok);
+      cap('Esse é o fluxo: uma tela, uma segunda chance.');
+      finger.classList.remove('show'); await pause(2200,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+pay:{n:2,t:'Diga o que a pessoa recupera',
+ hyp:'Experimente um título que nomeia a coisa, “Volte a saber tudo que acontece com seu CPF e CNPJ”, <b>porque “Volte a controlar seus dados” serviria para qualquer um dos seis benefícios abaixo</b>. A página do Premium de vocês abre com alertas sobre CPF e CNPJ.',
+ out:'CR +15–20%',
+ n2:4,hyp2:'Experimente uma linha no card anual com a economia, <b>porque a tela mostra R$ 16,66 por mês, mas nunca que doze meses de R$ 23,90 custam R$ 86,90 a mais</b>. Os dois preços são de vocês.',out2:'ARPU +10–15%',
+ kept:'Cabeçalho branco com seta de voltar, título azul-marinho, cards de plano com contorno rosa e botões de seleção, os seis benefícios nas palavras de vocês e o botão rosa fixo no rodapé. O anual continua pré-selecionado.'},
+payB:{n:3,t:'Coloque a nota 4,8 acima do botão',
+ hyp:'Experimente a nota da App Store na linha acima do botão, <b>porque nada nesta tela diz 4,8 com 807 mil avaliações, justo na hora da decisão</b>.',
+ out:'CR +10–15%',
+ n2:5,hyp2:'Experimente incluir os dois benefícios que a página do Premium lista, duas consultas grátis por mês e vantagens de parceiros, <b>porque o paywall vende seis linhas e a página promete mais</b>.',out2:'CR +5–10%',
+ kept:'O card de benefícios, os ticks rosa, o texto em negrito e cinza em duas linhas, a linha dos termos e o botão rosa. As novas linhas seguem o mesmo padrão.'},
+offer:{n:1,t:'Dê uma segunda chance à seta de voltar',
+ hyp:'Experimente uma tela de preço único no plano mensal quando a pessoa volta, <b>porque o paywall abre com R$ 199,90 por ano, e quem não está pronto para isso só viu esse preço</b>. R$ 23,90 é o preço mensal de vocês, sem desconto e sem cronômetro.',
+ out:'ARPU +10–15%',
+ kept:'Cabeçalho, título azul-marinho, card de plano com contorno rosa, linhas de benefício, termos e botão rosa. “Ver plano anual” leva de volta ao plano anual.'}
+};
+function outBlock(lab,val){ return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>'; }
+function paintPanel(){
+  var d=PANEL[key()]; if(!d) return;
+  var h='<div class="pn-n">Ideia '+d.n+' de 5</div><h3 class="pn-t">'+d.t+'</h3><p class="pn-hyp">'+d.hyp+'</p>'+outBlock('Resultado potencial · com base em dados da Adapty',d.out);
+  if(d.hyp2) h+='<div class="pn-sep"></div><div class="pn-n">Ideia '+d.n2+' de 5</div><p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'+outBlock('Resultado potencial · com base em dados da Adapty',d.out2);
+  h+='<div class="pn-kept"><b>Seu design, intacto.</b> '+d.kept+'</div>';
+  h+='<div class="pn-foot">As faixas são o efeito esperado pela Adapty a partir de testes em mais de 30.000 apps de assinatura, e não um ganho medido para a Serasa. Preços, nota e benefícios vêm do material publicado por vocês.</div>';
+  document.getElementById('panel').innerHTML=h;
+}
+
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); requestAnimationFrame(function(){ jump(b.dataset.jump); }); }); });
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+scr.paywall.classList.add('is-active');
+sync(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
